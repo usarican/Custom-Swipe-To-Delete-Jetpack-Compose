@@ -9,6 +9,7 @@ import androidx.compose.foundation.gestures.horizontalDrag
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.coroutineScope
@@ -34,39 +36,35 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SwipeToDeleteItem(
-    foregroundView : @Composable (modifier : Modifier) -> Unit,
+    mainView : @Composable () -> Unit
 ){
     Box(
         modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentSize()){
-        BackgroundCard(backgroundColor = Color.Red)
-        foregroundView(
-            modifier = Modifier.swipeToDismiss {
-                Log.d("SwipeToDeleteItem", "Dismissed")
-            }
-        )
+            .fillMaxWidth()
+            .wrapContentSize()){
+        mainView()
+
     }
 }
 
 @Composable
-fun BackgroundCard(
-    backgroundColor : Color
+fun DeleteView(
+    onDelete : () -> Unit,
+    height : Dp
 ){
     Card(
+        onClick = onDelete,
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(),
         colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
+            containerColor = Color.Red
         ),
+        modifier = Modifier
+            .height(height)
     ) {
-        Text(text = "Delete", modifier = Modifier
-            .fillMaxSize()
-            .align(Alignment.CenterHorizontally), textAlign = TextAlign.Right)
+
     }
 }
+
 
 fun Modifier.swipeToDismiss(
     onDismissed: () -> Unit
