@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -36,12 +37,13 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SwipeToDeleteItem(
-    mainView : @Composable () -> Unit
-){
+    mainView: @Composable () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentSize()){
+            .wrapContentSize()
+    ) {
         mainView()
 
     }
@@ -49,9 +51,9 @@ fun SwipeToDeleteItem(
 
 @Composable
 fun DeleteView(
-    onDelete : () -> Unit,
-    height : Dp
-){
+    onDelete: () -> Unit,
+    height: Dp
+) {
     Card(
         onClick = onDelete,
         shape = RoundedCornerShape(16.dp),
@@ -71,7 +73,6 @@ fun Modifier.swipeToDismiss(
 ): Modifier = composed {
     val offsetX = remember { Animatable(0f) }
     pointerInput(Unit) {
-        Log.d("SwipeToDeleteItem", "View width ${size.width}")
         // Used to calculate fling decay.
         val decay = splineBasedDecay<Float>(this)
         // Use suspend functions for touch events and the Animatable.
@@ -109,14 +110,7 @@ fun Modifier.swipeToDismiss(
                     upperBound = size.width.toFloat()
                 )
                 launch {
-                    Log.d("SwipeToDeleteItem", "targetOffsetX: $targetOffsetX")
-                    if (targetOffsetX.absoluteValue >= 400f){
-                        offsetX.animateTo(
-                            targetValue = -400f,
-                            initialVelocity = velocity
-                        )
-                    }
-                    else if (targetOffsetX.absoluteValue <= size.width) {
+                    if (targetOffsetX.absoluteValue <= size.width) {
                         // Not enough velocity; Slide back.
                         offsetX.animateTo(
                             targetValue = 0f,
@@ -133,3 +127,4 @@ fun Modifier.swipeToDismiss(
     }
         .offset { IntOffset(offsetX.value.roundToInt(), 0) }
 }
+
