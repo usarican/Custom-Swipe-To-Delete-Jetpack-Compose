@@ -3,6 +3,7 @@ package com.utkusarican.customswipetodelete
 
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +45,7 @@ fun MainScreen(
         mutableStateOf(false)
     }
     var deleteCardWidth by remember { mutableStateOf(0.dp) }
+    var deleteCardAlpha by remember { mutableStateOf(0f) }
     val localDensity = LocalDensity.current
     Column(
         modifier = modifier.fillMaxSize()
@@ -62,8 +65,12 @@ fun MainScreen(
                         orientation = Orientation.Horizontal,
                         state = rememberDraggableState { delta ->
                             offsetX += delta
-                            deleteCardWidth = if (offsetX < 0) min(80.dp, localDensity.run { offsetX.absoluteValue.toDp() }) else 0.dp
-                            if (localDensity.run { offsetX.absoluteValue.toDp() } > 32.dp){
+                            deleteCardWidth = if (offsetX.absoluteValue > localDensity.run { 32.dp.toPx() })
+                                localDensity.run { (offsetX.absoluteValue).toDp() } else 0.dp
+                            deleteCardAlpha = if (offsetX.absoluteValue > localDensity.run { 32.dp.toPx() }) kotlin.math.min(
+                                1f,offsetX.absoluteValue / 500f)
+                                 else 0f
+                            if (localDensity.run { offsetX.absoluteValue.toDp() } > 48.dp) {
                                 visibleToDeleteView = true
                             }
                         }
@@ -83,13 +90,17 @@ fun MainScreen(
                     onClick = { TODO() },
                     modifier = Modifier
                         .width(deleteCardWidth)
+                        .alpha(deleteCardAlpha)
                         .fillMaxHeight()
                         .padding(vertical = 4.dp, horizontal = 8.dp)
                 ) {
                     Text(
                         text = "Delete",
+                        maxLines = 1,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
                     )
 
                 }
