@@ -33,7 +33,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun SwipeContainerView(
     modifier: Modifier = Modifier,
-    childHeight : Dp,
+    childHeight: Dp,
+    onDismissAction : () -> Unit,
     view: @Composable () -> Unit,
 ) {
     val deleteButtonAlphaAnimation = remember { Animatable(0f) }
@@ -57,22 +58,27 @@ fun SwipeContainerView(
                                 x.absoluteValue <= localDensity.run { 40.dp.toPx() } -> {
                                     deleteButtonAlphaAnimation.animateTo(0f)
                                 }
+
                                 x.absoluteValue >= localDensity.run { 40.dp.toPx() } && x.absoluteValue <= localDensity.run { 120.dp.toPx() } -> {
                                     when {
-                                        x.absoluteValue >= localDensity.run { 40.dp.toPx() } && x.absoluteValue <= localDensity.run { 60.dp.toPx()} -> {
+                                        x.absoluteValue >= localDensity.run { 40.dp.toPx() } && x.absoluteValue <= localDensity.run { 60.dp.toPx() } -> {
                                             deleteButtonAlphaAnimation.animateTo(0.2f)
                                         }
-                                        x.absoluteValue >= localDensity.run { 60.dp.toPx() } &&  x.absoluteValue <= localDensity.run { 80.dp.toPx() } -> {
+
+                                        x.absoluteValue >= localDensity.run { 60.dp.toPx() } && x.absoluteValue <= localDensity.run { 80.dp.toPx() } -> {
                                             deleteButtonAlphaAnimation.animateTo(0.4f)
                                         }
-                                        x.absoluteValue >= localDensity.run { 80.dp.toPx() } &&  x.absoluteValue <= localDensity.run { 100.dp.toPx() } -> {
+
+                                        x.absoluteValue >= localDensity.run { 80.dp.toPx() } && x.absoluteValue <= localDensity.run { 100.dp.toPx() } -> {
                                             deleteButtonAlphaAnimation.animateTo(0.6f)
                                         }
-                                        x.absoluteValue >= localDensity.run { 100.dp.toPx() } &&  x.absoluteValue <= localDensity.run { 120.dp.toPx() }  -> {
+
+                                        x.absoluteValue >= localDensity.run { 100.dp.toPx() } && x.absoluteValue <= localDensity.run { 120.dp.toPx() } -> {
                                             deleteButtonAlphaAnimation.animateTo(0.8f)
                                         }
                                     }
                                 }
+
                                 else -> {
                                     deleteButtonAlphaAnimation.animateTo(1f)
                                 }
@@ -100,6 +106,7 @@ fun SwipeContainerView(
                         coroutineScope.launch {
                             deleteCardWidthAnimation.animateTo(it.toFloat())
                             removeDeleteItem = true
+                            onDismissAction()
                         }
 
                     },
@@ -132,7 +139,12 @@ fun SwipeContainerView(
             visible = !removeDeleteItem
         ) {
             Card(
-                onClick = { TODO() },
+                onClick = {
+                    coroutineScope.launch {
+                        removeDeleteItem = true
+                        onDismissAction()
+                    }
+                },
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),

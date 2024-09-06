@@ -40,12 +40,13 @@ class MainActivity : ComponentActivity() {
                     SwipeContainerView(
                         modifier = Modifier.padding(innerPadding),
                         childHeight = childViewHeight,
+                        onDismissAction = {}
                     ){
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                                .height(32.dp)
+                                .height(64.dp)
                                 .onGloballyPositioned {
                                     childViewHeight = localDensity.run { it.size.height.toDp() }
                                 }
