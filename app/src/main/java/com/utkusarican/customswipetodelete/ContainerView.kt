@@ -26,12 +26,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
@@ -154,12 +152,4 @@ fun SwipeContainerView(
             }
         }
     }
-}
-
-@Composable
-fun ContainerView(
-    modifier: Modifier = Modifier,
-    view: @Composable () -> Unit
-) {
-
 }
