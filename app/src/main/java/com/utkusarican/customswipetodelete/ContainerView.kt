@@ -53,7 +53,6 @@ fun SwipeContainerView(
             modifier = Modifier
                 .wrapContentSize()
                 .swipeToDismiss(
-                    deleteItemWidth = deleteViewWidth,
                     offsetXCallBack = { x, width ->
                         boxWidth = width.toFloat()
                         coroutineScope.launch {
@@ -144,6 +143,7 @@ fun SwipeContainerView(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxSize()
+                        .align(Alignment.CenterHorizontally)
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
