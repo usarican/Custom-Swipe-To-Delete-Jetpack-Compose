@@ -2,8 +2,6 @@ package com.utkusarican.customswipetodelete
 
 
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -32,10 +30,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
+
+/**
+ * Projenin Amacı, kaydırma işlemi yaparak delete işlemini tetiklemek, aynı zamanda options gibi ekstra bir view'ada erişmek.
+ * Kütüphane olarak yapmayı dene en sonunda
+ */
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier
