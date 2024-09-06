@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,30 +38,35 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     var childViewHeight by remember { mutableStateOf(0.dp) }
                     val localDensity = LocalDensity.current
+                    var dismissView by remember { mutableStateOf(false) }
                     SwipeContainerView(
                         modifier = Modifier.padding(innerPadding),
                         childHeight = childViewHeight,
-                        onDismissAction = {}
+                        onDismissAction = {
+                            dismissView = true
+                        }
                     ){
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp, vertical = 8.dp)
-                                .height(64.dp)
-                                .onGloballyPositioned {
-                                    childViewHeight = localDensity.run { it.size.height.toDp() }
-                                }
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                        AnimatedVisibility(visible = !dismissView) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                                    .height(64.dp)
+                                    .onGloballyPositioned {
+                                        childViewHeight = localDensity.run { it.size.height.toDp() }
+                                    }
                             ) {
-                                Text(
-                                    text = "Swipe to delete",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.wrapContentSize()
-                                )
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = "Swipe to delete",
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.wrapContentSize()
+                                    )
+                                }
                             }
                         }
                     }
