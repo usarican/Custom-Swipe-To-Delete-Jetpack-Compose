@@ -2,18 +2,14 @@ package com.utkusarican.customswipetodelete
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +25,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -36,7 +33,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun SwipeContainerView(
     modifier: Modifier = Modifier,
-    view: @Composable () -> Unit
+    childHeight : Dp,
+    view: @Composable () -> Unit,
 ) {
     val deleteButtonAlphaAnimation = remember { Animatable(0f) }
     val coroutineScope = rememberCoroutineScope()
@@ -126,7 +124,7 @@ fun SwipeContainerView(
                 .onGloballyPositioned {
                     deleteViewWidth = localDensity.run { it.size.width.toDp() }
                 }
-                .height(56.dp)
+                .height(childHeight)
                 .alpha(deleteButtonAlphaAnimation.value)
                 .width(localDensity.run { deleteCardWidthAnimation.value.toDp() })
                 .align(Alignment.CenterEnd)
