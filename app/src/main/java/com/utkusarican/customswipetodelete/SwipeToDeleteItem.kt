@@ -106,7 +106,7 @@ fun Modifier.swipeToDismiss(
                         } else if (targetOffsetX.absoluteValue < (size.width * 0.70) && localDensity.run { targetOffsetX.absoluteValue.toDp() } >= 80.dp) {
                             maxWidthOfDeleteItem()
                             offsetX.animateTo(
-                                targetValue = -localDensity.run { 136.dp.toPx() },
+                                targetValue = -localDensity.run { 120.dp.toPx() },
                                 animationSpec = spring(
                                     dampingRatio = Spring.DampingRatioLowBouncy
                                 )

@@ -1,6 +1,8 @@
 package com.utkusarican.customswipetodelete
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +17,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,8 +42,10 @@ fun SwipeContainerView(
     val deleteButtonAlphaAnimation = remember { Animatable(0f) }
     val coroutineScope = rememberCoroutineScope()
     var deleteViewWidth by remember { mutableStateOf(0.dp) }
-    var deleteCardWidthAnimation = remember { Animatable(0f) }
+    val deleteCardWidthAnimation = remember { Animatable(0f) }
     val localDensity = LocalDensity.current
+    var boxWidth by remember { mutableFloatStateOf(0f) }
+    var removeDeleteItem by remember { mutableStateOf(false) }
     Box(
         modifier = modifier
     ) {
@@ -49,21 +54,29 @@ fun SwipeContainerView(
                 .wrapContentSize()
                 .swipeToDismiss(
                     deleteItemWidth = deleteViewWidth,
-                    onDismissed = {
-                        coroutineScope.launch { deleteCardWidthAnimation.animateTo(it.toFloat()) }
-
-                    },
                     offsetXCallBack = { x, width ->
+                        boxWidth = width.toFloat()
                         coroutineScope.launch {
                             when {
-                                x.absoluteValue <= localDensity.run { 80.dp.toPx() } -> {
+                                x.absoluteValue <= localDensity.run { 40.dp.toPx() } -> {
                                     deleteButtonAlphaAnimation.animateTo(0f)
                                 }
-
-                                x.absoluteValue >= localDensity.run { 80.dp.toPx() } && x <= localDensity.run { 120.dp.toPx() } -> {
-                                    deleteButtonAlphaAnimation.animateTo(x.absoluteValue / localDensity.run { 120.dp.toPx() })
+                                x.absoluteValue >= localDensity.run { 40.dp.toPx() } && x.absoluteValue <= localDensity.run { 120.dp.toPx() } -> {
+                                    when {
+                                        x.absoluteValue >= localDensity.run { 40.dp.toPx() } && x.absoluteValue <= localDensity.run { 60.dp.toPx()} -> {
+                                            deleteButtonAlphaAnimation.animateTo(0.2f)
+                                        }
+                                        x.absoluteValue >= localDensity.run { 60.dp.toPx() } &&  x.absoluteValue <= localDensity.run { 80.dp.toPx() } -> {
+                                            deleteButtonAlphaAnimation.animateTo(0.4f)
+                                        }
+                                        x.absoluteValue >= localDensity.run { 80.dp.toPx() } &&  x.absoluteValue <= localDensity.run { 100.dp.toPx() } -> {
+                                            deleteButtonAlphaAnimation.animateTo(0.6f)
+                                        }
+                                        x.absoluteValue >= localDensity.run { 100.dp.toPx() } &&  x.absoluteValue <= localDensity.run { 120.dp.toPx() }  -> {
+                                            deleteButtonAlphaAnimation.animateTo(0.8f)
+                                        }
+                                    }
                                 }
-
                                 else -> {
                                     deleteButtonAlphaAnimation.animateTo(1f)
                                 }
@@ -71,21 +84,14 @@ fun SwipeContainerView(
                         }
                         coroutineScope.launch {
                             when {
-                                x.absoluteValue <= localDensity.run { 80.dp.toPx() } -> {
+                                x.absoluteValue <= localDensity.run { 48.dp.toPx() } -> {
                                     deleteCardWidthAnimation.animateTo(0f)
                                 }
 
-                                x.absoluteValue >= localDensity.run { 80.dp.toPx() } && x.absoluteValue <= localDensity.run { 120.dp.toPx() } -> {
+                                x.absoluteValue >= localDensity.run { 48.dp.toPx() } -> {
                                     deleteCardWidthAnimation.animateTo(
-                                        minOf(
-                                            localDensity.run { 120.dp.toPx() },
-                                            x.absoluteValue
-                                        )
+                                        x.absoluteValue
                                     )
-                                }
-
-                                x.absoluteValue > width * 0.4 -> {
-                                    deleteCardWidthAnimation.animateTo(localDensity.run { localDensity.run { x.absoluteValue } - localDensity.run { 16.dp.toPx() } })
                                 }
 
                                 else -> {
@@ -93,6 +99,13 @@ fun SwipeContainerView(
                                 }
                             }
                         }
+                    },
+                    onDismissed = {
+                        coroutineScope.launch {
+                            deleteCardWidthAnimation.animateTo(it.toFloat())
+                            removeDeleteItem = true
+                        }
+
                     },
                     removeDeleteItem = {
                         coroutineScope.launch {
@@ -110,8 +123,7 @@ fun SwipeContainerView(
         ) {
             view()
         }
-        Card(
-            onClick = { TODO() },
+        AnimatedVisibility(
             modifier = Modifier
                 .onGloballyPositioned {
                     deleteViewWidth = localDensity.run { it.size.width.toDp() }
@@ -120,13 +132,11 @@ fun SwipeContainerView(
                 .alpha(deleteButtonAlphaAnimation.value)
                 .width(localDensity.run { deleteCardWidthAnimation.value.toDp() })
                 .align(Alignment.CenterEnd)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
+            visible = !removeDeleteItem
         ) {
-            Column(
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(120.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Card(
+                onClick = { TODO() },
             ) {
                 Text(
                     text = "Delete",
