@@ -1,5 +1,6 @@
 package com.utkusarican.customswipetodelete
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -10,6 +11,7 @@ import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.horizontalDrag
 import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -17,6 +19,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.coroutineScope
@@ -26,15 +29,21 @@ import kotlin.math.roundToInt
 
 
 fun Modifier.swipeToDismiss(
-    onDismissed: () -> Unit,
-    //offsetXCallBack: (offsetX: Float) -> Unit
+    onDismissed: (viewSize: Int) -> Unit,
+    deleteItemWidth: Dp,
+    offsetXCallBack: (x: Float, viewSize: Int) -> Unit,
+    removeDeleteItem: () -> Unit,
+    maxWidthOfDeleteItem: () -> Unit
 ): Modifier = composed {
     val offsetX = remember { Animatable(0f) }
     val localDensity = LocalDensity
+    val itemWidth = remember(deleteItemWidth) { mutableStateOf(deleteItemWidth) }
+    Log.d("TAG", "deleteCardWidth: ${itemWidth.value}")
     pointerInput(Unit) {
         // Used to calculate fling decay.
         val decay = splineBasedDecay<Float>(this)
         // Use suspend functions for touch events and the Animatable.
+        Log.d("TAG", "deleteCardWidth1: ${itemWidth.value}")
         coroutineScope {
             while (true) {
                 val velocityTracker = VelocityTracker()
@@ -46,11 +55,11 @@ fun Modifier.swipeToDismiss(
 
                     horizontalDrag(pointerId) { change ->
                         // Update the animation value with touch events.
+                        offsetXCallBack(offsetX.value + change.positionChange().x, size.width)
                         launch {
                             offsetX.snapTo(
                                 offsetX.value + change.positionChange().x
                             )
-
                         }
                         velocityTracker.addPosition(
                             change.uptimeMillis,
@@ -70,31 +79,46 @@ fun Modifier.swipeToDismiss(
                     upperBound = size.width.toFloat()
                 )
                 launch {
+                    Log.d("TAG", "deleteCardWidth2: ${itemWidth.value}")
                     if (targetOffsetX.absoluteValue >= size.width) {
-                        offsetX.animateDecay(velocity, decay)
-                        onDismissed()
+                        launch { offsetX.animateDecay(velocity, decay) }
+                        launch { onDismissed(size.width) }
+
                     } else {
                         // Eğer viewlar gözükmüyorsa geriye kaydırsın eğer gözüküyorsa viewların width ve padding toplamı kadar kaydırsın
                         // Daha fazla kaydırırsa delete view'ı büyüsün bıraktığında da dismiss olsun
-                        if (targetOffsetX.absoluteValue > (size.width * 0.70)){
-                            offsetX.animateTo(
-                                targetValue = -size.width.toFloat(),
-                                animationSpec = tween(400, easing = FastOutSlowInEasing)
-                            )
-                            onDismissed()
+                        if (targetOffsetX.absoluteValue > (size.width * 0.70)) {
+                            launch {
+                                offsetX.animateTo(
+                                    targetValue = -size.width.toFloat(),
+                                    animationSpec = tween(400, easing = FastOutSlowInEasing)
+                                )
+                            }
+                            launch { onDismissed(size.width) }
 
-                        } else if (targetOffsetX.absoluteValue < (size.width * 0.70) && localDensity.run { targetOffsetX.absoluteValue.toDp()} >= 120.dp) {
+
+                        } else if (targetOffsetX.absoluteValue < (size.width * 0.70) && targetOffsetX.absoluteValue < localDensity.run { 80.dp.toPx() }) {
+                            removeDeleteItem()
                             offsetX.animateTo(
-                                targetValue = -localDensity.run { 120.dp.toPx() },
+                                targetValue = 0f,
+                                initialVelocity = velocity
+                            )
+                        } else if (targetOffsetX.absoluteValue < (size.width * 0.70) && localDensity.run { targetOffsetX.absoluteValue.toDp() } >= 80.dp) {
+                            maxWidthOfDeleteItem()
+                            offsetX.animateTo(
+                                targetValue = -localDensity.run { 136.dp.toPx() },
                                 animationSpec = spring(
                                     dampingRatio = Spring.DampingRatioLowBouncy
                                 )
                             )
                         } else {
-                            offsetX.animateTo(
-                                targetValue = 0f,
-                                initialVelocity = velocity
-                            )
+                            launch { removeDeleteItem() }
+                            launch {
+                                offsetX.animateTo(
+                                    targetValue = 0f,
+                                    initialVelocity = velocity
+                                )
+                            }
                         }
                     }
                 }
