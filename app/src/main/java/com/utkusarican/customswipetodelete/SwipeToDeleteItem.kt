@@ -1,6 +1,5 @@
 package com.utkusarican.customswipetodelete
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -50,7 +49,6 @@ fun Modifier.swipeToDismiss(
                     horizontalDrag(pointerId) { change ->
                         // Update the animation value with touch events.
                         offsetXCallBack(offsetX.value + change.positionChange().x, size.width)
-                        Log.d("TAG","swipeChange ${change.positionChange().x}")
                         launch {
                             if (offsetX.value >= 0f && offsetX.value + change.positionChange().x > localDensity.run { 40.dp.toPx() }) {
                             } else {
@@ -77,7 +75,6 @@ fun Modifier.swipeToDismiss(
                     lowerBound = -size.width.toFloat(),
                     upperBound = size.width.toFloat()
                 )
-                Log.d("TAG","velocity $targetOffsetX")
                 launch {
                     if (targetOffsetX <= -size.width) {
                         launch { offsetX.animateDecay(velocity, decay) }

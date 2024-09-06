@@ -1,4 +1,4 @@
-#Fri Sep 06 20:39:59 TRT 2024
+#Fri Sep 06 20:50:26 TRT 2024
 base.0=/Users/ibrahimutkusarican/AndroidStudioProjects/CustomSwipeToDelete/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/Users/ibrahimutkusarican/AndroidStudioProjects/CustomSwipeToDelete/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.2=/Users/ibrahimutkusarican/AndroidStudioProjects/CustomSwipeToDelete/app/build/intermediates/dex/debug/mergeProjectDexDebug/5/classes.dex
