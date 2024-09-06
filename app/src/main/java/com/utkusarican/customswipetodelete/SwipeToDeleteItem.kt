@@ -1,7 +1,11 @@
 package com.utkusarican.customswipetodelete
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.calculateTargetValue
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.horizontalDrag
@@ -12,18 +16,21 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
-
 fun Modifier.swipeToDismiss(
-    onDismissed: () -> Unit
+    onDismissed: () -> Unit,
+    //offsetXCallBack: (offsetX: Float) -> Unit
 ): Modifier = composed {
     val offsetX = remember { Animatable(0f) }
+    val localDensity = LocalDensity
     pointerInput(Unit) {
         // Used to calculate fling decay.
         val decay = splineBasedDecay<Float>(this)
@@ -40,15 +47,9 @@ fun Modifier.swipeToDismiss(
                     horizontalDrag(pointerId) { change ->
                         // Update the animation value with touch events.
                         launch {
-                            if (offsetX.value == 0F){
-                                offsetX.snapTo(
-                                    offsetX.value + change.positionChange().x
-                                )
-                            } else {
-                                offsetX.snapTo(
-                                    offsetX.value + change.positionChange().x
-                                )
-                            }
+                            offsetX.snapTo(
+                                offsetX.value + change.positionChange().x
+                            )
 
                         }
                         velocityTracker.addPosition(
@@ -69,16 +70,32 @@ fun Modifier.swipeToDismiss(
                     upperBound = size.width.toFloat()
                 )
                 launch {
-                    if (targetOffsetX.absoluteValue <= size.width) {
-                        // Not enough velocity; Slide back.
-                        offsetX.animateTo(
-                            targetValue = 0f,
-                            initialVelocity = velocity
-                        )
-                    } else {
-                        // The element was swiped away.
+                    if (targetOffsetX.absoluteValue >= size.width) {
                         offsetX.animateDecay(velocity, decay)
                         onDismissed()
+                    } else {
+                        // Eğer viewlar gözükmüyorsa geriye kaydırsın eğer gözüküyorsa viewların width ve padding toplamı kadar kaydırsın
+                        // Daha fazla kaydırırsa delete view'ı büyüsün bıraktığında da dismiss olsun
+                        if (targetOffsetX.absoluteValue > (size.width * 0.70)){
+                            offsetX.animateTo(
+                                targetValue = -size.width.toFloat(),
+                                animationSpec = tween(400, easing = FastOutSlowInEasing)
+                            )
+                            onDismissed()
+
+                        } else if (targetOffsetX.absoluteValue < (size.width * 0.70) && localDensity.run { targetOffsetX.absoluteValue.toDp()} >= 120.dp) {
+                            offsetX.animateTo(
+                                targetValue = -localDensity.run { 120.dp.toPx() },
+                                animationSpec = spring(
+                                    dampingRatio = Spring.DampingRatioLowBouncy
+                                )
+                            )
+                        } else {
+                            offsetX.animateTo(
+                                targetValue = 0f,
+                                initialVelocity = velocity
+                            )
+                        }
                     }
                 }
             }
