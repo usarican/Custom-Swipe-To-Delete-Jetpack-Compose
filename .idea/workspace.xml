@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a1db4db-3d81-4ee4-81ba-2b37830950d0" name="Changes" comment="Kinda work" />
+    <list default="true" id="4a1db4db-3d81-4ee4-81ba-2b37830950d0" name="Changes" comment="Ortaladalık texti de :D">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/utkusarican/customswipetodelete/SwipeableUsage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/CustomSwipeToDelete.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/CustomSwipeToDelete.app.androidTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/CustomSwipeToDelete.app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/CustomSwipeToDelete.app.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/CustomSwipeToDelete.app.unitTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/utkusarican/customswipetodelete/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/utkusarican/customswipetodelete/MainActivity.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,7 +27,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/ibrahimutkusarican/.android/avd/6.7_Horizontal_Fold-in_API_33.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=RF8RC0C51CE)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -22,12 +36,33 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="CustomSwipeToDelete" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="CustomSwipeToDelete" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="CustomSwipeToDelete" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="CustomSwipeToDelete" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -67,6 +102,7 @@
     "SHOW_ALL_PROCESSES": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/ibrahimutkusarican/AndroidStudioProjects/CustomSwipeToDelete",
@@ -188,7 +224,103 @@
       <option name="project" value="LOCAL" />
       <updated>1725544651289</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Kinda work">
+      <option name="closed" value="true" />
+      <created>1725570451398</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1725570451398</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Pointer input ile animasyonlu yapmak gerek..">
+      <option name="closed" value="true" />
+      <created>1725612664782</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1725612664782</updated>
+    </task>
+    <task id="LOCAL-00007" summary="PointerInput ile çözücez gibi bunu, container view implementasyonu yapıyorum">
+      <option name="closed" value="true" />
+      <created>1725625185213</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1725625185213</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Animasyon ekledik birazcık daha :)">
+      <option name="closed" value="true" />
+      <created>1725626335784</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1725626335784</updated>
+    </task>
+    <task id="LOCAL-00009" summary="In Progress :))">
+      <option name="closed" value="true" />
+      <created>1725631658059</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1725631658059</updated>
+    </task>
+    <task id="LOCAL-00010" summary="In Progress :))">
+      <option name="closed" value="true" />
+      <created>1725640049640</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1725640049640</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Çalışıyor galiba :))">
+      <option name="closed" value="true" />
+      <created>1725644590623</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1725644590623</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Ortaladalık texti de :D">
+      <option name="closed" value="true" />
+      <created>1725645087053</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1725645087053</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Ortaladalık texti de :D">
+      <option name="closed" value="true" />
+      <created>1725645358135</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1725645358135</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Ortaladalık texti de :D">
+      <option name="closed" value="true" />
+      <created>1725647739537</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1725647739537</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Ortaladalık texti de :D">
+      <option name="closed" value="true" />
+      <created>1725648343267</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1725648343267</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Ortaladalık texti de :D">
+      <option name="closed" value="true" />
+      <created>1725648534360</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1725648534360</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -196,15 +328,31 @@
     <MESSAGE value="Adding Delete button thing.." />
     <MESSAGE value="Not working :s" />
     <MESSAGE value="Kinda work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Kinda work" />
+    <MESSAGE value="Pointer input ile animasyonlu yapmak gerek.." />
+    <MESSAGE value="PointerInput ile çözücez gibi bunu, container view implementasyonu yapıyorum" />
+    <MESSAGE value="Animasyon ekledik birazcık daha :)" />
+    <MESSAGE value="In Progress :))" />
+    <MESSAGE value="Çalışıyor galiba :))" />
+    <MESSAGE value="Ortaladalık texti de :D" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ortaladalık texti de :D" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/utkusarican/customswipetodelete/MainScreen.kt</url>
-          <line>84</line>
-          <option name="timeStamp" value="3" />
+          <line>72</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/utkusarican/customswipetodelete/MainScreen.kt</url>
+          <line>94</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/utkusarican/customswipetodelete/SwipeToDeleteItem.kt</url>
+          <line>94</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

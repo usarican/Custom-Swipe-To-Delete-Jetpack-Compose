@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,39 +37,44 @@ class MainActivity : ComponentActivity() {
         setContent {
             CustomSwipeToDeleteTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    var childViewHeight by remember { mutableStateOf(0.dp) }
-                    val localDensity = LocalDensity.current
-                    var dismissView by remember { mutableStateOf(false) }
-                    SwipeContainerView(
-                        modifier = Modifier.padding(innerPadding),
-                        childHeight = childViewHeight,
-                        onDismissAction = {
-                            dismissView = true
+                    HorizontalDraggableSample(modifier = Modifier.padding(innerPadding))
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun CustomSwipeToDismiss(innerPadding: PaddingValues) {
+        var childViewHeight by remember { mutableStateOf(0.dp) }
+        val localDensity = LocalDensity.current
+        var dismissView by remember { mutableStateOf(false) }
+        SwipeContainerView(
+            modifier = Modifier.padding(innerPadding),
+            childHeight = childViewHeight,
+            onDismissAction = {
+                dismissView = true
+            }
+        ) {
+            AnimatedVisibility(visible = !dismissView) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 8.dp)
+                        .height(64.dp)
+                        .onGloballyPositioned {
+                            childViewHeight = localDensity.run { it.size.height.toDp() }
                         }
-                    ){
-                        AnimatedVisibility(visible = !dismissView) {
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp, vertical = 8.dp)
-                                    .height(64.dp)
-                                    .onGloballyPositioned {
-                                        childViewHeight = localDensity.run { it.size.height.toDp() }
-                                    }
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(
-                                        text = "Swipe to delete",
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.wrapContentSize()
-                                    )
-                                }
-                            }
-                        }
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Swipe to delete",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.wrapContentSize()
+                        )
                     }
                 }
             }
